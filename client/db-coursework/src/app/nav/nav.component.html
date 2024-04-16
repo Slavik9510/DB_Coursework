@@ -1,0 +1,30 @@
+<nav class="navbar">
+    <div>
+        <h1 class="brand-logo">E-Store</h1>
+    </div>
+
+    <div class="navigation">
+        <ul class="main-nav-items">
+            <li class="nav-item">Products</li>
+            <li class="nav-item">Shopping cart</li>
+            <i class="fa-solid fa-bars"></i>
+        </ul>
+    </div>
+
+    <div class="auth-links" *ngIf="!(accountService.currentUser$ | async)">
+        <a class="link-button" routerLink="login">Login</a>
+        <a class="link-button" [routerLink]="">Register</a>
+    </div>
+
+    <div class="profile-menu" *ngIf="(accountService.currentUser$ | async) as user">
+        <div class="dropdown">
+            <i class="fa-solid fa-bars"></i>
+            <button class="dropbtn">Dropdown</button>
+            <div class="dropdown-content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+        </div>
+    </div>
+</nav>
