@@ -1,4 +1,5 @@
-﻿using DB_Coursework_API.Helpers;
+﻿using DB_Coursework_API.Extensions;
+using DB_Coursework_API.Helpers;
 using DB_Coursework_API.Helpers.Data_Mappers;
 using DB_Coursework_API.Interfaces;
 using DB_Coursework_API.Models.Domain;
@@ -25,7 +26,7 @@ namespace DB_Coursework_API.Data
             int count = 0;
             using (var command = new SqlCommand(countQuery, connection))
             {
-                command.Parameters.AddWithValue("@Category", productParams.Category);
+                command.Parameters.AddWithValue("@Category", productParams.Category.FirstCharToUpper());
                 count = (int)await command.ExecuteScalarAsync();
             }
 

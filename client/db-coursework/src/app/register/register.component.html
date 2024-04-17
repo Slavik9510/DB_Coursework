@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="login-form">
+        <form autocomplete="off" #loginForm="ngForm" (ngSubmit)="register()">
+            <input class="form-control" [(ngModel)]="model.firstName" type="text" name="fitstName"
+                placeholder="First Name">
+            <input class="form-control" [(ngModel)]="model.lastName" type="text" name="lastName"
+                placeholder="Last Name">
+            <input class="form-control" [(ngModel)]="model.email" type="text" name="email" placeholder="Email">
+            <input class="form-control" [(ngModel)]="model.phoneNumber" type="text" name="phoneNumber"
+                placeholder="Phone Number">
+            <input class="form-control" [(ngModel)]="model.password" type="password" name="password"
+                placeholder="Password">
+            <button class="form-control" type="submit">Register</button>
+            <a class="form-control" routerLink="">Cancel</a>
+        </form>
+    </div>
+</div>

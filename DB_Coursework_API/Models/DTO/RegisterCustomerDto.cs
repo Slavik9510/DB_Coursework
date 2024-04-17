@@ -11,7 +11,7 @@ namespace DB_Coursework_API.Models.DTO
         public string? LastName { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
-        [StringLength(8, MinimumLength = 4, ErrorMessage = "Password length must be between 4 and 8 characters")]
+        [StringLength(24, MinimumLength = 6, ErrorMessage = "Password length must be between 4 and 24 characters")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Email is required")]

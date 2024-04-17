@@ -1,0 +1,41 @@
+.container {
+    width: 50rem;
+    margin: auto;
+    margin-top: 9rem;
+    border-radius: 10px;
+    background-color: #ccc;
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.login-form {
+    display: inline-block;
+    text-align: left;
+}
+
+.form-control {
+    margin: 0.5rem;
+    border-radius: 6px;
+    padding: 0.5rem;
+}
+
+input.form-control {
+    display: block;
+    border: 2px solid #ccc;
+    font-size: 1.1rem;
+}
+
+button.form-control {
+    border: 2px solid transparent;
+    background-color: rgb(31, 180, 31);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 50%;
+}
+
+a.form-control {
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}

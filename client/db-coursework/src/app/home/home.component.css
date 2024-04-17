@@ -1,0 +1,28 @@
+.container {
+    margin-top: 11rem;
+}
+
+.categories {
+    text-align: center;
+    background-color: #ccc;
+}
+
+.category {
+    height: 100%;
+    display: inline-block;
+    margin: 2rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.category h2 {
+    text-align: center;
+}
+
+.category img {
+    max-width: 15vw;
+}
+
+.category img:hover {
+    transform: scale(1.2);
+}
