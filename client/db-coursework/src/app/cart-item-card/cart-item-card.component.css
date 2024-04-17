@@ -1,0 +1,81 @@
+.container {
+    background-color: #cccccc78;
+    padding: 0.8rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    width: 40vw;
+    margin: auto;
+}
+
+.product-image {
+    max-width: 5vw;
+    display: inline-block;
+}
+
+.product-name {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    display: inline-block;
+}
+
+.comments {
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.product-price-wrapper {
+    margin-top: 1rem;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    display: inline;
+    margin-left: 1rem;
+}
+
+.price::after {
+    content: '₴';
+    margin-left: 0.2rem;
+}
+
+.quantity-selector {
+    display: inline-block;
+    margin-bottom: 0.625rem;
+    margin-left: 1rem;
+}
+
+.quantity-selector label {
+    font-size: 1rem;
+}
+
+.quantity-button {
+    padding: 0.32rem 0.64rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.quantity-button:hover {
+    background-color: #f0f0f0;
+}
+
+input[type="number"] {
+    padding: 0.32rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 4vw;
+    text-align: center;
+    margin: 0 0.2rem;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

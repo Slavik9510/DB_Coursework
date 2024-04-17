@@ -1,7 +1,9 @@
 export interface Product {
     id: number;
     name: string;
-    price: string;
+    price: number;
     category: string;
-    attributes: { [key: string]: any };
+    rating: number;
+    amountOfComments: number;
+    photoUrl: string | undefined;
 }

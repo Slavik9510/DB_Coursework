@@ -1,1 +1,10 @@
-<p *ngFor="let product of products">{{product.name}}</p>
+<div class="container">
+    <div class="product" *ngFor="let product of products"> <app-product-card [product]="product"></app-product-card>
+    </div>
+
+    <div class="pagination" *ngIf="productParams && totalItems">
+        <button (click)="previousPage()" [disabled]="productParams.pageNumber===1">Previous</button>
+        <span>Page {{ productParams.pageNumber }} of {{ getTotalPages()}}</span>
+        <button (click)="nextPage()" [disabled]="productParams.pageNumber === getTotalPages()">Next</button>
+    </div>
+</div>

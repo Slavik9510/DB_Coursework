@@ -24,7 +24,9 @@ namespace DB_Coursework_API.Controllers
             Response.AddPaginationHeader(new PaginationHeader(products.CurrentPage, products.PageSize,
                 products.TotalCount, products.TotalPages));
 
-            return Ok(products);
+            var dtos = await _productsRepository.GetAdditionalData(products);
+
+            return Ok(dtos);
         }
     }
 }

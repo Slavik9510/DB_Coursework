@@ -18,6 +18,6 @@ export class ProductService {
     params = params.append('category', productParams.category)
     params = params.append('orderBy', productParams.orderBy)
 
-    return this.http.get<Product[]>(this.baseUrl + 'products', { params: params });
+    return this.http.get<Product[]>(this.baseUrl + 'products', { params: params, observe: 'response' });
   }
 }

@@ -9,6 +9,7 @@ namespace DB_Coursework_API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<RegisterCustomerDto, Customer>();
+            CreateMap<Product, ProductDto>();
         }
     }
 }

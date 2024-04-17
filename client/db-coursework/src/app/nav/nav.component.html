@@ -6,7 +6,7 @@
     <div class="navigation">
         <ul class="main-nav-items">
             <li class="nav-item" routerLink="">Products</li>
-            <li class="nav-item">Shopping cart</li>
+            <li class="nav-item" routerLink="shopping-cart">Shopping cart</li>
         </ul>
     </div>
 
@@ -21,6 +21,7 @@
             <i class="fa-solid fa-bars dropbtn"></i>
             <div class="dropdown-content">
                 <a href="#">Edit profile</a>
+                <a href="#">My orders</a>
                 <a (click)="this.accountService.logout()">Logout</a>
             </div>
         </div>

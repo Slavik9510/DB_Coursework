@@ -1,0 +1,13 @@
+<div class="container" *ngIf="product">
+    <img src="{{product.photoUrl || getPhoto()}}" alt="" class="product-image">
+    <p class="product-name">{{product.name}}</p>
+    <div class="rating">
+        <app-star-rating [rating]="product.rating"></app-star-rating>
+        <i class="comments far fa-comment-alt"></i> {{product.amountOfComments}}
+    </div>
+
+    <div class="product-price-wrapper">
+        <p class="price">{{product.price}}</p>
+        <i class="buy fa-solid fa-cart-shopping" (click)="addToCart()"></i>
+    </div>
+</div>

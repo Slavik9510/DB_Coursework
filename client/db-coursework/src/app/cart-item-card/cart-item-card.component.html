@@ -1,0 +1,13 @@
+<div class="container" *ngIf="item">
+    <img src="{{item.product.photoUrl || getPhoto()}}" alt="" class="product-image">
+    <p class="product-name">{{item.product.name}}</p>
+
+    <div class="product-price-wrapper">
+        <p class="price">{{item.product.price}}</p>
+        <div class="quantity-selector">
+            <button (click)="decrementQuantity()" class="quantity-button">-</button>
+            <input id="quantity" type="number" name="quantity" [(ngModel)]="item.quantity">
+            <button (click)="incrementQuantity()" class="quantity-button">+</button>
+        </div>
+    </div>
+</div>

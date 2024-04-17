@@ -1,0 +1,8 @@
+.star-rating .star {
+    color: gold;
+    margin-right: 4px;
+}
+
+.star-rating {
+    display: inline-block;
+}

@@ -1,0 +1,62 @@
+.container {
+    display: inline-block;
+    background-color: #cccccc78;
+    padding: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    max-height: 52vh;
+    max-width: 20vw;
+    height: 52vh;
+    width: 18vw;
+}
+
+.container:hover .product-image {
+    transform: scale(1.1);
+}
+
+.container:hover .product-name {
+    font-weight: bold;
+}
+
+.product-image {
+    max-width: 15vw;
+}
+
+.product-name {
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    max-width: 100%;
+}
+
+.comments {
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.product-price-wrapper {
+    margin-top: 1rem;
+}
+
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    display: inline;
+}
+
+.price::after {
+    content: '₴';
+    margin-left: 3px;
+}
+
+.buy {
+    margin-left: 0.5rem;
+    color: rgb(31, 180, 31);
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.buy:hover {
+    background-color: #ccccccb4;
+}
