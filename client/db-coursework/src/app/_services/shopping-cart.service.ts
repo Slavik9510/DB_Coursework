@@ -18,6 +18,7 @@ export class ShoppingCartService {
     } else {
       currentItems.push(new CartItem(product, 1));
     }
+    localStorage.setItem('cart-items', JSON.stringify(this.items));
   }
 
   removeFromCart(product: Product): void {
@@ -29,6 +30,17 @@ export class ShoppingCartService {
         currentItems.splice(index, 1);
       }
     }
+    localStorage.setItem('cart-items', JSON.stringify(this.items));
+  }
+
+  removeAllInstancesFromCart(product: Product): void {
+    const currentItems = this.items;
+    const index = currentItems.findIndex(item => item.product.id === product.id);
+
+    if (index !== -1) {
+      currentItems.splice(index, 1);
+    }
+    localStorage.setItem('cart-items', JSON.stringify(this.items));
   }
 
   getItems(): CartItem[] {
@@ -37,5 +49,10 @@ export class ShoppingCartService {
 
   clearCart(): void {
     this.items = [];
+    localStorage.setItem('cart-items', JSON.stringify(this.items));
+  }
+
+  setItems(items: CartItem[]): void {
+    this.items = items;
   }
 }

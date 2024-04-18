@@ -1,0 +1,69 @@
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+    position: fixed;
+    text-align: center;
+    z-index: 200;
+    top: 20vh;
+    left: 30vw;
+    width: 40vw;
+    background-color: #ccc;
+    padding: 4rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 3px 3px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+    text-align: center;
+    margin: 0 0 1rem 0;
+}
+
+.login-form {
+    display: inline-block;
+    text-align: left;
+}
+
+.form-control {
+    margin: 0.5rem;
+    border-radius: 6px;
+    padding: 0.5rem;
+}
+
+input.form-control {
+    display: block;
+    border: 2px solid #ccc;
+    font-size: 1.1rem;
+}
+
+button.form-control {
+    border: 2px solid transparent;
+    background-color: rgb(31, 180, 31);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 50%;
+}
+
+button.form-control:hover {
+    background-color: rgb(21, 122, 21);
+}
+
+a.form-control:hover {
+    color: #333;
+    font-weight: bold;
+}
+
+a.form-control {
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}

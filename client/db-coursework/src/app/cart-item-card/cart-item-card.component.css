@@ -4,13 +4,15 @@
     border-radius: 8px;
     display: flex;
     align-items: center;
-    width: 40vw;
+    width: 41vw;
     margin: auto;
+    position: relative;
 }
 
 .product-image {
     max-width: 5vw;
-    display: inline-block;
+    max-height: 12vh;
+    margin-right: 1rem;
 }
 
 .product-name {
@@ -26,6 +28,8 @@
 
 .product-price-wrapper {
     margin-top: 1rem;
+    position: absolute;
+    right: 1vw;
 }
 
 .price {
@@ -78,4 +82,17 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.remove-product {
+    margin-left: 1rem;
+    padding: 0.5rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.remove-product:hover {
+    color: red;
+    border-radius: 4px;
+    background-color: #ccccccb4;
 }

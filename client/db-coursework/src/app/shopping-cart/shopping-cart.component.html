@@ -1,6 +1,14 @@
+<app-order-deliver-info *ngIf="orderDetailsMode" (cancelOrder)="cancelOrder($event)"
+    (deliveryDetails)="getDetails($event)"></app-order-deliver-info>
 <div class="container">
     <div class="item" *ngFor="let item of cartItems">
-        <app-cart-item-card [item]="item"></app-cart-item-card>
+        <app-cart-item-card (removeItem)="removeItem($event)" [item]="item"></app-cart-item-card>
     </div>
-    <button>Place an order ● {{getTotalPrice()}}</button>
+    <button *ngIf="this.cartItems.length>0" (click)="this.orderDetailsMode=true">Place an order ●
+        {{getTotalPrice()}}</button>
+
+    <div *ngIf="cartItems.length===0">
+        <h2>Cart is empty</h2>
+        <p>But it's never too late to fix it :)</p>
+    </div>
 </div>

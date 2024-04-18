@@ -13,6 +13,7 @@ namespace DB_Coursework_API.Extensions
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
 
             return services;
         }

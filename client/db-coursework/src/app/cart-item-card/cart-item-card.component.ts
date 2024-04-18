@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CartItem } from '../_models/cart-item.model';
 
 @Component({
@@ -8,7 +8,7 @@ import { CartItem } from '../_models/cart-item.model';
 })
 export class CartItemCardComponent {
   @Input() item: CartItem | undefined;
-
+  @Output() removeItem = new EventEmitter();
 
   getPhoto() {
     if (!this.item) return ' ';
@@ -39,5 +39,11 @@ export class CartItemCardComponent {
     if (!this.item) return;
 
     this.item.quantity = Math.max(this.item.quantity - 1, 1);
+  }
+
+  removeProduct() {
+    if (!this.item) return;
+
+    this.removeItem.emit(this.item);
   }
 }

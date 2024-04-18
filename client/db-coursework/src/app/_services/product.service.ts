@@ -8,7 +8,7 @@ import { getPaginationHeaders } from './paginationHelper';
   providedIn: 'root'
 })
 export class ProductService {
-  baseUrl = 'https://localhost:7272/api/';
+  private baseUrl = 'https://localhost:7272/api/';
   products: Product[] = [];
   constructor(private http: HttpClient) { }
 
