@@ -24,9 +24,21 @@ namespace DB_Coursework_API.Controllers
             Response.AddPaginationHeader(new PaginationHeader(products.CurrentPage, products.PageSize,
                 products.TotalCount, products.TotalPages));
 
-            var dtos = await _productsRepository.GetAdditionalData(products);
+            return Ok(products);
+        }
 
-            return Ok(dtos);
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetProductDetails(int id)
+        {
+            var product = await _productsRepository.GetDetailsAsync(id);
+
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(product);
         }
     }
 }

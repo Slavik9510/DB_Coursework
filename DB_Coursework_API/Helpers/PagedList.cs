@@ -31,8 +31,6 @@ namespace DB_Coursework_API.Helpers
             paramsValues.Add("@Offset", offset);
             paramsValues.Add("@Take", pageSize);
 
-            string q = "SELECT * FROM Products WHERE Category = 'Phones' ORDER BY UnitPrice OFFSET 3 ROWS FETCH NEXT 3 ROWS ONLY";
-
             using (var command = new SqlCommand(query, connection))
             {
                 foreach (var param in paramsValues)
@@ -43,8 +41,6 @@ namespace DB_Coursework_API.Helpers
                 var items = new List<T>();
                 while (await reader.ReadAsync())
                 {
-                    // Creating T objects from query results
-                    // You need to implement this depending on the structure of your T class
                     T item = mapper.MapData(reader);
                     items.Add(item);
                 }

@@ -17,7 +17,7 @@
     margin: 0 0.8rem;
 }
 
-.pagination button {
+button {
     border-radius: 8px;
     border: 2px solid transparent;
     padding: 0.4rem 0.5rem;
@@ -27,13 +27,65 @@
     cursor: pointer;
 }
 
-.pagination button:disabled {
+button:disabled {
     background-color: #ccc;
     cursor: default;
 }
 
-.pagination button:not([disabled]):hover {
+button:not([disabled]):hover {
     border: 2px solid rgb(31, 180, 31);
     color: rgb(31, 180, 31);
     background-color: white;
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-left: 1.5rem;
+}
+
+.dropdown {
+    position: relative;
+    margin-left: 0.5rem;
+}
+
+.dropdown select {
+    display: inline-block;
+    padding: 0.7rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.dropdown select:hover {
+    border-color: #aaa;
+}
+
+.dropdown select:focus {
+    border-color: #333;
+    outline: none;
+}
+
+.price-filter input {
+    display: inline-block;
+    margin-left: 1rem;
+    padding: 0.7rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.filters button {
+    margin-left: 1rem;
+    padding: 0.7rem;
+    font-size: 1rem;
 }

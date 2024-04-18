@@ -15,8 +15,14 @@ export class ProductService {
   getProducts(productParams: ProductParams) {
     let params = getPaginationHeaders(productParams.pageNumber, productParams.pageSize);
 
-    params = params.append('category', productParams.category)
-    params = params.append('orderBy', productParams.orderBy)
+    params = params.append('category', productParams.category);
+    params = params.append('orderBy', productParams.orderBy);
+    params = params.append('orderDescending', productParams.orderDescending);
+
+    if (productParams.minPrice)
+      params = params.append('minPrice', productParams.minPrice);
+    if (productParams.maxPrice)
+      params = params.append('maxPrice', productParams.maxPrice);
 
     return this.http.get<Product[]>(this.baseUrl + 'products', { params: params, observe: 'response' });
   }

@@ -4,6 +4,7 @@ using DB_Coursework_API.Helpers.Data_Mappers;
 using DB_Coursework_API.Interfaces;
 using DB_Coursework_API.Models.Domain;
 using DB_Coursework_API.Models.DTO;
+using Newtonsoft.Json;
 using System.Data.SqlClient;
 
 namespace DB_Coursework_API.Data
@@ -19,42 +20,104 @@ namespace DB_Coursework_API.Data
             _mapper = mapper;
         }
 
-        public async Task<PagedList<Product>> GetProductsAsync(ProductParams productParams)
+        public async Task<PagedList<ProductDto>> GetProductsAsync(ProductParams productParams)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            ISqlDataMapper<Product> mapper = new ProductMapper();
-
-            string countQuery = "SELECT COUNT(*) FROM Products WHERE Category = @Category";
+            string countQuery = "SELECT COUNT(*) FROM ProductOverview WHERE Category = @Category AND " +
+                "UnitPrice BETWEEN @MinPrice AND @MaxPrice";
 
             int count = 0;
 
             using (var command = new SqlCommand(countQuery, connection))
             {
                 command.Parameters.AddWithValue("@Category", productParams.Category);
+                command.Parameters.AddWithValue("@MinPrice", productParams.MinPrice);
+                command.Parameters.AddWithValue("@MaxPrice", productParams.MaxPrice);
                 count = (int)await command.ExecuteScalarAsync();
             }
 
             string sortingCriteria = productParams.OrderBy switch
             {
+                "rating" => "Rating",
                 _ => "UnitPrice"
             };
             string sortingOrder = productParams.OrderDescending ? "DESC" : "";
-            string query = "SELECT * FROM Products WHERE Category = @Category " +
-                $"ORDER BY {sortingCriteria} {sortingOrder}";
+            string query = "SELECT * FROM ProductOverview WHERE Category = @Category " +
+                $"AND UnitPrice BETWEEN @MinPrice AND @MaxPrice ORDER BY {sortingCriteria} {sortingOrder}";
 
             var paramsValues = new Dictionary<string, object>
             {
                 { "@Category", productParams.Category },
+                { "@MinPrice", productParams.MinPrice },
+                { "@MaxPrice", productParams.MaxPrice },
             };
 
-            var products = await PagedList<Product>.CreateAsync(connection, query, count, mapper,
+
+            ISqlDataMapper<ProductDto> mapper = new ProductMapper();
+            var products = await PagedList<ProductDto>.CreateAsync(connection, query, count, mapper,
                 paramsValues, productParams.PageNumber, productParams.PageSize);
 
             return products;
         }
 
+        public async Task<ProductDetailsDto?> GetDetailsAsync(int id)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var product = new ProductDetailsDto();
+            string query = "SELECT * FROM Products WHERE ProductID = @Id";
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                if (await reader.ReadAsync())
+                {
+                    string attributes = (string)reader["Attributes"];
+                    product.ID = (int)reader["ProductID"];
+                    product.Name = (string)reader["ProductName"];
+                    product.Price = (decimal)reader["UnitPrice"];
+                    product.Category = (string)reader["Category"];
+                    product.Attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(attributes);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            string commentsQuery = "SELECT CONCAT(c.FirstName, ' ', c.LastName) AS CustomerName," +
+                " r.ReviewDate, r.Rating, r.ReviewText FROM Reviews r JOIN Products p ON " +
+                "p.ProductID = r.ProductID JOIN Customers c ON r.CustomerID = c.CustomerID WHERE " +
+                "r.ProductID = @Id;";
+
+            var reviews = new List<Review>();
+            using (var command = new SqlCommand(commentsQuery, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    var review = new Review()
+                    {
+                        Reviewer = (string)reader["CustomerName"],
+                        ReviewDate = (DateTime)reader["ReviewDate"],
+                        Rating = (byte)reader["Rating"],
+                        Content = !reader.IsDBNull(reader.GetOrdinal("ReviewText")) ?
+                        reader["ReviewText"].ToString() : null
+                    };
+
+                    reviews.Add(review);
+                }
+            }
+            product.Reviews = reviews;
+
+            return product;
+        }
 
         public async Task<List<ProductDto>> GetAdditionalData(IEnumerable<Product> products)
         {

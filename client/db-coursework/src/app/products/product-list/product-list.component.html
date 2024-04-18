@@ -1,5 +1,23 @@
 <div class="container">
-    <div class="product" *ngFor="let product of products"> <app-product-card [product]="product"></app-product-card>
+    <div class="filters" *ngIf="productParams">
+        <span>Order by: </span>
+        <div class="dropdown">
+            <select [(ngModel)]="orderCriteria">
+                <option value="price">Price</option>
+                <option value="rating">Rating</option>
+                <option value="price-desc">Price Descending</option>
+                <option value="rating-desc">Rating Descending</option>
+            </select>
+        </div>
+
+        <div class="price-filter">
+            <input type="number" [(ngModel)]="productParams.minPrice" placeholder="Min price">
+            <input type="number" [(ngModel)]="productParams.maxPrice" placeholder="Max price">
+        </div>
+        <button (click)="filterProducts()">Filter products</button>
+    </div>
+    <div class="product" [routerLink]="['/product', product.id]" *ngFor="let product of products">
+        <app-product-card [product]="product"></app-product-card>
     </div>
 
     <div class="pagination" *ngIf="productParams && totalItems">

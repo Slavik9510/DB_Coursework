@@ -15,6 +15,7 @@ export class ProductListComponent {
   productParams: ProductParams | undefined;
   totalItems: number | undefined;
   defaultPhoto: string | undefined;
+  orderCriteria = 'price';
 
   constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
@@ -43,6 +44,7 @@ export class ProductListComponent {
 
     this.productParams = new ProductParams(this.category!);
     this.productParams.pageSize = 15;
+    this.productParams.orderBy = 'price';
 
     this.productService.getProducts(this.productParams).subscribe(response => {
       if (response.body)
@@ -83,6 +85,38 @@ export class ProductListComponent {
     this.productService.getProducts(this.productParams).subscribe(response => {
       if (response.body)
         this.products = response.body;
+    });
+  }
+
+  filterProducts() {
+    if (!this.productParams) return;
+
+    this.productParams.pageNumber = 1;
+    switch (this.orderCriteria) {
+      case 'price':
+      case 'rating':
+        this.productParams.orderBy = this.orderCriteria;
+        this.productParams.orderDescending = false;
+        break;
+      case 'price-desc':
+      case 'rating-desc':
+        this.productParams.orderBy = this.orderCriteria.replace('-desc', '');
+        this.productParams.orderDescending = true;
+        break;
+    }
+
+    console.log(this.productParams);
+
+    this.productService.getProducts(this.productParams).subscribe(response => {
+      if (response.body)
+        this.products = response.body;
+
+      const paginationHeader = response.headers.get('Pagination');
+
+      if (paginationHeader) {
+        const paginationData = JSON.parse(paginationHeader);
+        this.totalItems = paginationData.totalItems;
+      }
     });
   }
 }
