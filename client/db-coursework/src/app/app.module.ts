@@ -18,7 +18,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CartItemCardComponent } from './cart-item-card/cart-item-card.component';
 import { OrderDeliverInfoComponent } from './order-deliver-info/order-deliver-info.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
-import { ProductDetailComponent } from './products/product-detail/product-detail.component';
+import { ProductDetailsComponent } from './products/product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { ProductDetailComponent } from './products/product-detail/product-detail
     ShoppingCartComponent,
     CartItemCardComponent,
     OrderDeliverInfoComponent,
-    ProductDetailComponent
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,

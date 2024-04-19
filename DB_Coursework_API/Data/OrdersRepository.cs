@@ -13,7 +13,7 @@ namespace DB_Coursework_API.Data
             _connectionString = config.GetConnectionString("DefaultConnection")!;
         }
         public async Task<bool> PlaceOrder(int customerId, string city, string address,
-            string postalCode, CartItem[] cartItems)
+            string postalCode, string carrier, CartItem[] cartItems)
         {
             var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -27,6 +27,7 @@ namespace DB_Coursework_API.Data
                 command.Parameters.AddWithValue("@City", city);
                 command.Parameters.AddWithValue("@Address", address);
                 command.Parameters.AddWithValue("@PostalCode", postalCode);
+                command.Parameters.AddWithValue("@Carrier", carrier);
 
                 SqlParameter itemsParameter = command.Parameters.AddWithValue("@Items",
                     CreateOrderItemsDataTable(cartItems));

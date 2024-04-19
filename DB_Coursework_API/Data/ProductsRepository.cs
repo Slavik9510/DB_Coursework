@@ -6,6 +6,7 @@ using DB_Coursework_API.Models.Domain;
 using DB_Coursework_API.Models.DTO;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace DB_Coursework_API.Data
 {
@@ -81,6 +82,7 @@ namespace DB_Coursework_API.Data
                     product.Name = (string)reader["ProductName"];
                     product.Price = (decimal)reader["UnitPrice"];
                     product.Category = (string)reader["Category"];
+                    product.Description = (string)reader["Description"];
                     product.Attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(attributes);
                 }
                 else
@@ -115,6 +117,7 @@ namespace DB_Coursework_API.Data
                 }
             }
             product.Reviews = reviews;
+            product.Attributes = NormalizeAttributes(product.Attributes);
 
             return product;
         }
@@ -172,6 +175,26 @@ namespace DB_Coursework_API.Data
             }
 
             return productDtos;
+        }
+
+        private static Dictionary<string, string> NormalizeAttributes(Dictionary<string, string> input)
+        {
+            var normalizedDictionary = new Dictionary<string, string>();
+
+            foreach (var pair in input)
+            {
+                string normalizedKey = Regex.Replace(pair.Key, "(?<=[a-z])(?=[A-Z])", " ");
+                normalizedKey = char.ToUpper(normalizedKey[0]) + normalizedKey.Substring(1);
+                string normalisedValue = pair.Value switch
+                {
+                    "true" => "Yes",
+                    "false" => "No",
+                    _ => pair.Value
+                };
+                normalizedDictionary.Add(normalizedKey, normalisedValue);
+            }
+
+            return normalizedDictionary;
         }
     }
 }

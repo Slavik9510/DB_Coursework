@@ -22,7 +22,7 @@ namespace DB_Coursework_API.Controllers
         public async Task<IActionResult> PlaceOrder(OrderDto orderDto)
         {
             if (await _ordersRepository.PlaceOrder(User.GetUserId(), orderDto.City,
-                orderDto.Address, orderDto.PostalCode, orderDto.CartItems))
+                orderDto.Address, orderDto.PostalCode, orderDto.Carrier, orderDto.CartItems))
             {
                 return Ok();
             }

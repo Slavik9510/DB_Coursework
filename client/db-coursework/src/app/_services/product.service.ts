@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { ProductParams } from '../_models/productParams';
 import { Product } from '../_models/product.model';
 import { getPaginationHeaders } from './paginationHelper';
+import { ProductDetails } from '../_models/product-details.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   private baseUrl = 'https://localhost:7272/api/';
-  products: Product[] = [];
+  // products: Product[] = [];
   constructor(private http: HttpClient) { }
 
   getProducts(productParams: ProductParams) {
@@ -25,5 +26,9 @@ export class ProductService {
       params = params.append('maxPrice', productParams.maxPrice);
 
     return this.http.get<Product[]>(this.baseUrl + 'products', { params: params, observe: 'response' });
+  }
+
+  getProductDetails(id: number) {
+    return this.http.get<ProductDetails>(this.baseUrl + 'products/' + id);
   }
 }

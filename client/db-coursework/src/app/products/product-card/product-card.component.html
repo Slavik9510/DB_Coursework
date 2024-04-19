@@ -8,6 +8,6 @@
 
     <div class="product-price-wrapper">
         <p class="price">{{product.price}}</p>
-        <i class="buy fa-solid fa-cart-shopping" (click)="addToCart()"></i>
+        <i class="buy fa-solid fa-cart-shopping" (click)="addToCart(); $event.stopPropagation()"></i>
     </div>
 </div>

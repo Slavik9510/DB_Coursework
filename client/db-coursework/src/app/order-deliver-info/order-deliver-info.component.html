@@ -1,13 +1,20 @@
 <div class="backdrop"></div>
 <div class="modal">
     <h2 class="modal-title">Enter the delivery details</h2>
-    <div class="login-form">
-        <form autocomplete="off" #loginForm="ngForm" (ngSubmit)="getInfo()">
+    <div class="delivery-form">
+        <form autocomplete="off" #loginForm="ngForm" (ngSubmit)="getInfo(shipping.value)">
             <input class="form-control" [(ngModel)]="deliveryInfo.city" type="text" name="city" placeholder="City">
             <input class="form-control" [(ngModel)]="deliveryInfo.address" type="text" name="address"
                 placeholder="Address">
             <input class="form-control" [(ngModel)]="deliveryInfo.postalCode" type="text" name="postalCode"
                 placeholder="Postal Code">
+            <div class="shipping-dropdown">
+                <label for="shipping">Carrier:</label>
+                <select id="shipping" #shipping>
+                    <option value="Nova Post">Nova Post</option>
+                    <option value="Ukrposhta">Ukrposhta</option>
+                </select>
+            </div>
             <button class="form-control" type="submit">Place an order</button>
             <a class="form-control" (click)="cancel()">Cancel</a>
         </form>

@@ -27,7 +27,7 @@
     margin: 0 0 1rem 0;
 }
 
-.login-form {
+.delivery-form {
     display: inline-block;
     text-align: left;
 }
@@ -66,4 +66,26 @@ a.form-control {
     color: white;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.shipping-dropdown {
+    margin-bottom: 1.1rem;
+    margin: 0.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+select {
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+select option {
+    padding: 0.5rem;
 }

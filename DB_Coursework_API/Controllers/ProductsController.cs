@@ -1,6 +1,7 @@
 ﻿using DB_Coursework_API.Extensions;
 using DB_Coursework_API.Helpers;
 using DB_Coursework_API.Interfaces;
+using DB_Coursework_API.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DB_Coursework_API.Controllers
@@ -31,7 +32,7 @@ namespace DB_Coursework_API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetProductDetails(int id)
         {
-            var product = await _productsRepository.GetDetailsAsync(id);
+            ProductDetailsDto? product = await _productsRepository.GetDetailsAsync(id);
 
             if (product == null)
             {

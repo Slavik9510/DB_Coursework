@@ -5,6 +5,7 @@
         public string City { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
+        public string Carrier { get; set; }
         public CartItem[] CartItems { get; set; }
     }
 }
