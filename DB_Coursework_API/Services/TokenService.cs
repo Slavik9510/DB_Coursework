@@ -1,5 +1,4 @@
 ﻿using DB_Coursework_API.Interfaces;
-using DB_Coursework_API.Models.Domain;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -14,11 +13,12 @@ namespace DB_Coursework_API.Services
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]!));
         }
-        public string CreateToken(Customer customer)
+        public string CreateToken(int id, string role)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, customer.ID.ToString())
+                new Claim(JwtRegisteredClaimNames.NameId,id.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

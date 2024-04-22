@@ -6,5 +6,11 @@
         public string OrderBy { get; set; } = "price";
         public int MinPrice { get; set; } = 0;
         public int MaxPrice { get; set; } = 1000000;
+
+        public override string ToString()
+        {
+            return $"Category: {Category}, OrderBy: {OrderBy}, MinPrice: {MinPrice}, MaxPrice: {MaxPrice}, " +
+                   $"PageNumber: {PageNumber}, PageSize: {PageSize}, OrderDescending: {OrderDescending}";
+        }
     }
 }

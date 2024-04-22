@@ -1,0 +1,18 @@
+<div class="log-viewer">
+    <h2>Log Viewer</h2>
+    <div>
+        <input type="date" [(ngModel)]="selectedDate" (change)="onDateChange(selectedDate)" placeholder="Select date"
+            class="date-picker">
+    </div>
+    <div *ngIf="logs && logs.length; else noLogsTemplate">
+        <ul class="log-list">
+            <li *ngFor="let log of logs"
+                [ngClass]="{'warning-log': log.includes('WARNING'), 'success-log': log.includes('Successful')}">
+                {{ log }}
+            </li>
+        </ul>
+    </div>
+    <ng-template #noLogsTemplate>
+        <p>No logs found for the selected date.</p>
+    </ng-template>
+</div>

@@ -8,5 +8,15 @@ namespace DB_Coursework_API.Extensions
         {
             return int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
+
+        public static int? TryGetUserId(this ClaimsPrincipal user)
+        {
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userIdClaim != null && int.TryParse(userIdClaim, out int userId))
+            {
+                return userId;
+            }
+            return null;
+        }
     }
 }

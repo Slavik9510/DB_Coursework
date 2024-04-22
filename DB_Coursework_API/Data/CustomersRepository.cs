@@ -1,5 +1,4 @@
-﻿using DB_Coursework_API.Extensions;
-using DB_Coursework_API.Interfaces;
+﻿using DB_Coursework_API.Interfaces;
 using DB_Coursework_API.Models.Domain;
 using System.Data.SqlClient;
 
@@ -58,8 +57,6 @@ namespace DB_Coursework_API.Data
             using var command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@Email", email);
-
-            var t = command.GetDebugQueryText();
 
             using SqlDataReader reader = await command.ExecuteReaderAsync();
 

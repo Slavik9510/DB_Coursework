@@ -1,6 +1,6 @@
 ﻿namespace DB_Coursework_API.Models.DTO
 {
-    public class CustomerLoginDto
+    public class UserLoginDto
     {
         public string Email { get; set; }
         public string Password { get; set; }

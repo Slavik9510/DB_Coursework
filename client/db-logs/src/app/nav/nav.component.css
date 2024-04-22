@@ -1,0 +1,104 @@
+.navbar {
+    position: fixed;
+    width: 100vw;
+    max-width: 100%;
+    background-color: #204D74;
+    padding: 1.2rem 0;
+    z-index: 1;
+    top: 0;
+    color: white;
+}
+
+.navbar>div {
+    display: inline-block;
+}
+
+.brand-logo {
+    cursor: default;
+    font-size: 1.4rem;
+    margin: 0;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.navigation {
+    vertical-align: middle;
+}
+
+.main-nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 2rem;
+}
+
+.nav-item {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-item:not(:first-child) {
+    margin-left: 1rem;
+}
+
+.auth-links,
+.profile-menu {
+    text-align: right;
+    width: calc(100vw - 14rem);
+}
+
+.link-button {
+    color: white;
+    margin-left: 0.5rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.dropbtn {
+    font-size: 1rem;
+    border: none;
+    margin-left: 1rem;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.profile-menu p {
+    display: inline-block;
+    margin: 0;
+}
+
+a:visited {
+    color: white;
+}

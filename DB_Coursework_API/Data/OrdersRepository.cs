@@ -12,7 +12,7 @@ namespace DB_Coursework_API.Data
         {
             _connectionString = config.GetConnectionString("DefaultConnection")!;
         }
-        public async Task<bool> PlaceOrder(int customerId, string city, string address,
+        public async Task<int?> PlaceOrder(int customerId, string city, string address,
             string postalCode, string carrier, CartItem[] cartItems)
         {
             var connection = new SqlConnection(_connectionString);
@@ -29,12 +29,18 @@ namespace DB_Coursework_API.Data
                 command.Parameters.AddWithValue("@PostalCode", postalCode);
                 command.Parameters.AddWithValue("@Carrier", carrier);
 
+                var orderIdParam = new SqlParameter("@OrderID", SqlDbType.Int);
+                orderIdParam.Direction = ParameterDirection.Output;
+                command.Parameters.Add(orderIdParam);
+
                 SqlParameter itemsParameter = command.Parameters.AddWithValue("@Items",
                     CreateOrderItemsDataTable(cartItems));
                 itemsParameter.SqlDbType = SqlDbType.Structured;
                 itemsParameter.TypeName = "dbo.OrderItem";
 
-                return await command.ExecuteNonQueryAsync() > 1;
+                await command.ExecuteNonQueryAsync();
+
+                return orderIdParam.Value != DBNull.Value ? (int)orderIdParam.Value : null;
             }
         }
 

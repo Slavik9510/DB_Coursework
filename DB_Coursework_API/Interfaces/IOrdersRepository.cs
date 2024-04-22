@@ -4,7 +4,7 @@ namespace DB_Coursework_API.Interfaces
 {
     public interface IOrdersRepository
     {
-        public Task<bool> PlaceOrder(int customerId, string city, string address,
+        public Task<int?> PlaceOrder(int customerId, string city, string address,
             string postalCode, string carrier, CartItem[] cartItems);
     }
 }
