@@ -4,10 +4,12 @@ namespace DB_Coursework_API.Interfaces
 {
     public interface IStatisticRepository
     {
-        Task<ChartData> GetSalesByPeriodAsync(DateTime startDate, DateTime endDate);
-        Task<ChartData> GetMonthlyOrderRankingsAsync(DateTime startDate, DateTime endDate);
-        Task<ChartData> GetAverageOrderPriceByMonthAsync(DateTime startDate, DateTime endDate);
-        Task<ChartData> GetTotalSalesByCategoryAndMonthAsync(int year);
-        Task<ChartData> GetAvgOrdersPerCustomerByMonthAsync(DateTime startDate, DateTime endDate);
+        Task<ChartData> GetSalesPerMonthAsync(DateTime startDate, DateTime endDate);
+        Task<ChartData> GetCityOrdersPerMonthAsync(DateTime startDate, DateTime endDate);
+        Task<ChartData> GetAverageOrderPricePerMonthAsync(DateTime startDate, DateTime endDate);
+        Task<ChartData> GetTotalSalesByCategoryPerMonthAsync(DateTime startDate, DateTime endDate);
+        Task<ChartData> GetAvgOrdersPerCustomerPerMonthAsync(DateTime startDate, DateTime endDate);
+        Task<ChartData> GetTopReviewedProductsPerMonthAsync(DateTime startDate, DateTime endDate);
+        Task<ChartData> GetTotalReturnedPerMonthAsync(DateTime startDate, DateTime endDate);
     }
 }

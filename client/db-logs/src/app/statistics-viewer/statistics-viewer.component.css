@@ -1,0 +1,21 @@
+select {
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+    /* Розмір шрифту */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    appearance: none;
+    background-color: #f9f9f9;
+}
+
+option {
+    padding: 0.5rem 0.7rem;
+}
+
+select:hover {
+    border-color: #999;
+}
+
+select:focus {
+    outline: none;
+}

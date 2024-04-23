@@ -1,0 +1,12 @@
+<select id="endpointSelect" #endpointSelect (change)="onOptionChange(endpointSelect.value)">
+    <option value="sales-by-month">Products sold per month</option>
+    <option value="city-orders-by-month">Top 5 cities by orders</option>
+    <option value="avg-order-price-by-month">Average order price per month</option>
+    <option value="category-sales-by-month">Best-selling categories</option>
+    <option value="avg-customer-orders-by-month">Average orders by customer per month</option>
+    <option value="products-returned-by-month">Products returned per month</option>
+    <option value="top-reviewed-products-by-month">Top 5 reviewed products per month</option>
+</select>
+
+
+<app-bar-chart [barChartData]="this.barChartData"></app-bar-chart>

@@ -1,3 +1,5 @@
 <div>
-    <canvas baseChart [data]="chartConfig.data" [options]="chartConfig.options"></canvas>
+    <canvas baseChart [data]="barChartData" [options]="barChartOptions" [legend]="barChartLegend"
+        [plugins]="barChartPlugins">
+    </canvas>
 </div>

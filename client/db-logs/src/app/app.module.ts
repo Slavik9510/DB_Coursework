@@ -9,13 +9,15 @@ import { NavComponent } from './nav/nav.component';
 import { LogsComponent } from './logs-viewer/logs-viewer.component';
 import { NgChartsModule } from 'ng2-charts';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { StatisticsViewerComponent } from './statistics-viewer/statistics-viewer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LogsComponent,
     NavComponent,
-    BarChartComponent
+    BarChartComponent,
+    StatisticsViewerComponent
   ],
   imports: [
     BrowserModule,

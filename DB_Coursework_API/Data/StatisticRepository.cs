@@ -12,7 +12,7 @@ namespace DB_Coursework_API.Data
         {
             _connectionString = config.GetConnectionString("DefaultConnection")!;
         }
-        public async Task<ChartData> GetSalesByPeriodAsync(DateTime startDate, DateTime endDate)
+        public async Task<ChartData> GetSalesPerMonthAsync(DateTime startDate, DateTime endDate)
         {
             using SqlConnection connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -40,78 +40,182 @@ namespace DB_Coursework_API.Data
             return chartData;
         }
 
-        public async Task<ChartData> GetMonthlyOrderRankingsAsync(DateTime startDate, DateTime endDate)
+        public async Task<ChartData> GetCityOrdersPerMonthAsync(DateTime startDate, DateTime endDate)
         {
-            var chartData = new ChartData();
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand(
+            "SELECT * FROM GetMonthlyOrderRankings(@StartDate, @EndDate) ORDER BY OrderMonth", connection))
             {
-                await connection.OpenAsync();
-                using (var command = new SqlCommand(
-                "SELECT * FROM GetMonthlyOrderRankings(@StartDate, @EndDate) ORDER BY OrderMonth, TotalOrders DESC", connection))
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
+
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                var resultData = new Dictionary<string, Dictionary<string, float>>();
+                while (await reader.ReadAsync())
                 {
-                    command.Parameters.AddWithValue("@StartDate", startDate);
-                    command.Parameters.AddWithValue("@EndDate", endDate);
+                    string orderMonth = reader["OrderMonth"].ToString();
+                    string city = reader["City"].ToString();
+                    float totalOrders = Convert.ToSingle(reader["TotalOrders"]);
 
-                    using SqlDataReader reader = await command.ExecuteReaderAsync();
-
-                    var resultData = new Dictionary<string, Dictionary<string, float>>();
-                    while (await reader.ReadAsync())
+                    if (!resultData.ContainsKey(orderMonth))
                     {
-                        string orderMonth = reader["OrderMonth"].ToString();
-                        string city = reader["City"].ToString();
-                        float totalOrders = Convert.ToSingle(reader["TotalOrders"]);
-
-                        if (!resultData.ContainsKey(orderMonth))
-                        {
-                            resultData[orderMonth] = new Dictionary<string, float>();
-                        }
-                        resultData[orderMonth].Add(city, totalOrders);
+                        resultData[orderMonth] = new Dictionary<string, float>();
                     }
-
-                    // Preparing data for chart
-                    int i = 0;
-                    foreach (var month in resultData.Keys)
-                    {
-                        chartData.Labels.Add(ConvertToMonthYearFormat(month));
-                        foreach (var city in resultData[month].Keys)
-                        {
-                            var dataset = chartData.Datasets.Find(d => d.Label == city);
-                            if (dataset == null)
-                            {
-                                dataset = new ChartDataset
-                                {
-                                    Label = city,
-                                    Data = new List<float?>(new float?[resultData.Keys.Count])
-                                };
-                                chartData.Datasets.Add(dataset);
-                            }
-                            dataset.Data[i] = resultData[month][city];
-                            //dataset.Data.Add(resultData[month][city]);
-                        }
-                        i++;
-                    }
+                    resultData[orderMonth].Add(city, totalOrders);
                 }
+
+                return ConvertToChartData(resultData);
+            }
+        }
+
+        public async Task<ChartData> GetAverageOrderPricePerMonthAsync(DateTime startDate, DateTime endDate)
+        {
+            using SqlConnection connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var chartData = new ChartData();
+            using (var command = new SqlCommand(
+                "SELECT * FROM GetAverageOrderPriceByMonth(@StartDate, @EndDate) ORDER BY OrderMonth", connection))
+            {
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
+
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+                var chartDataset = new ChartDataset();
+                chartDataset.Label = "Average order price ₴";
+                while (await reader.ReadAsync())
+                {
+                    string month = reader["OrderMonth"].ToString();
+                    int avgOrderPrice = (int)reader["AvgOrderPrice"];
+                    chartDataset.Data.Add(avgOrderPrice);
+                    chartData.Labels.Add(ConvertToMonthYearFormat(month));
+                }
+                chartData.Datasets.Add(chartDataset);
             }
 
             return chartData;
         }
 
-        public Task<ChartData> GetAvgOrdersPerCustomerByMonthAsync(DateTime startDate, DateTime endDate)
+        public async Task<ChartData> GetTotalSalesByCategoryPerMonthAsync(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            using (var command = new SqlCommand(
+            "SELECT * FROM GetTotalSalesByCategoryAndMonth(@StartDate, @EndDate) ORDER BY OrderMonth", connection))
+            {
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
+
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                var resultData = new Dictionary<string, Dictionary<string, float>>();
+                while (await reader.ReadAsync())
+                {
+                    string orderMonth = reader["OrderMonth"].ToString();
+                    string category = reader["Category"].ToString();
+                    float totalSales = Convert.ToSingle(reader["TotalSales"]);
+
+                    if (!resultData.ContainsKey(orderMonth))
+                    {
+                        resultData[orderMonth] = new Dictionary<string, float>();
+                    }
+                    resultData[orderMonth].Add(category, totalSales);
+                }
+
+                return ConvertToChartData(resultData);
+            }
         }
 
-        public Task<ChartData> GetAverageOrderPriceByMonthAsync(DateTime startDate, DateTime endDate)
+        public async Task<ChartData> GetAvgOrdersPerCustomerPerMonthAsync(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            using SqlConnection connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var chartData = new ChartData();
+            using (var command = new SqlCommand(
+                "SELECT * FROM GetAvgOrdersPerCustomerByMonth(@StartDate, @EndDate) ORDER BY OrderMonth", connection))
+            {
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
+
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+                var chartDataset = new ChartDataset();
+                chartDataset.Label = "Average orders per customer";
+                while (await reader.ReadAsync())
+                {
+                    string month = reader["OrderMonth"].ToString();
+                    float avgOrdersPerCustomer = Convert.ToSingle(reader["AvgOrdersPerCustomer"]);
+                    chartDataset.Data.Add(avgOrdersPerCustomer);
+                    chartData.Labels.Add(ConvertToMonthYearFormat(month));
+                }
+                chartData.Datasets.Add(chartDataset);
+            }
+
+            return chartData;
         }
 
-        public Task<ChartData> GetTotalSalesByCategoryAndMonthAsync(int year)
+        public async Task<ChartData> GetTotalReturnedPerMonthAsync(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            using SqlConnection connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var chartData = new ChartData();
+            using (var command = new SqlCommand(
+                "SELECT * FROM GetTotalReturnedByMonth(@StartDate, @EndDate) ORDER BY ReturnMonth", connection))
+            {
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
+
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+                var chartDataset = new ChartDataset();
+                chartDataset.Label = "Total product returns";
+                while (await reader.ReadAsync())
+                {
+                    string month = reader["returnMonth"].ToString();
+                    int totalReturned = (int)reader["TotalReturned"];
+                    chartDataset.Data.Add(totalReturned);
+                    chartData.Labels.Add(ConvertToMonthYearFormat(month));
+                }
+                chartData.Datasets.Add(chartDataset);
+            }
+
+            return chartData;
         }
 
+        public async Task<ChartData> GetTopReviewedProductsPerMonthAsync(DateTime startDate, DateTime endDate)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+
+            using (var command = new SqlCommand(
+            "SELECT * FROM GetTopReviewsByMonth(@StartDate, @EndDate) ORDER BY ReviewMonth", connection))
+            {
+                command.Parameters.AddWithValue("@StartDate", startDate);
+                command.Parameters.AddWithValue("@EndDate", endDate);
+
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                var resultData = new Dictionary<string, Dictionary<string, float>>();
+                while (await reader.ReadAsync())
+                {
+                    string orderMonth = reader["ReviewMonth"].ToString();
+                    string productName = reader["ProductName"].ToString();
+                    float totalReviews = Convert.ToSingle(reader["TotalReviews"]);
+
+                    if (!resultData.ContainsKey(orderMonth))
+                    {
+                        resultData[orderMonth] = new Dictionary<string, float>();
+                    }
+                    resultData[orderMonth].Add(productName, totalReviews);
+                }
+
+                return ConvertToChartData(resultData);
+            }
+        }
         private string ConvertToMonthYearFormat(string input)
         {
             string[] parts = input.Split('-');
@@ -138,6 +242,30 @@ namespace DB_Coursework_API.Data
 
             // Повертаємо рядок з форматованою назвою місяця та роком
             return $"{char.ToUpper(monthName[0])}{monthName.Substring(1)} {year}";
+        }
+        private ChartData ConvertToChartData(Dictionary<string, Dictionary<string, float>> data)
+        {
+            var chartData = new ChartData();
+            foreach (var month in data.Keys)
+            {
+                chartData.Labels.Add(ConvertToMonthYearFormat(month));
+                foreach (var city in data[month].Keys)
+                {
+                    var dataset = chartData.Datasets.Find(d => d.Label == city);
+                    if (dataset == null)
+                    {
+                        dataset = new ChartDataset
+                        {
+                            Label = city,
+                            Data = new List<float?>(new float?[data.Keys.Count])
+                        };
+                        chartData.Datasets.Add(dataset);
+                    }
+                    var i = chartData.Labels.IndexOf(ConvertToMonthYearFormat(month));
+                    dataset.Data[i] = data[month][city];
+                }
+            }
+            return chartData;
         }
     }
 }
