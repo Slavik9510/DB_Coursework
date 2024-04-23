@@ -90,30 +90,31 @@ namespace DB_Coursework_API.Controllers
             return Ok(dto);
         }
 
-        [HttpPost("login-dev")]
-        public async Task<IActionResult> LoginAsDeveloper(UserLoginDto devLoginDto)
+        [HttpPost("login-employee")]
+        public async Task<IActionResult> LoginEmployee(UserLoginDto employeeLoginDto)
         {
-            await _logger.LogAsync($"Attempting login as developer with email: {devLoginDto.Email}");
-            Employee employee = await _employeesRepository.GetEmployeeByEmailAsync(devLoginDto.Email);
+            await _logger.LogAsync($"Attempting login for employee with email: {employeeLoginDto.Email}");
+            Employee employee = await _employeesRepository.GetEmployeeByEmailAsync(employeeLoginDto.Email);
 
             if (employee == null)
             {
-                await _logger.LogWarningAsync($"Employee with email {devLoginDto.Email} not found. Invalid email address.");
+                await _logger.LogWarningAsync($"Employee with email {employeeLoginDto.Email} not found. Invalid email address.");
                 return Unauthorized("Invalid email");
             }
-            else if (employee.Position != "Web Development Specialist")
+
+            string role = employee.Position switch
             {
-                await _logger.LogWarningAsync($"Invalid email {devLoginDto.Email} for developer employee.");
-                return Unauthorized("Invalid email");
-            }
+                "Web Development Specialist" => "developer",
+                _ => "employee"
+            };
 
             using var hmac = new HMACSHA512(employee.PasswordSalt);
 
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(devLoginDto.Password));
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(employeeLoginDto.Password));
 
             if (!computedHash.SequenceEqual(employee.PasswordHash))
             {
-                await _logger.LogWarningAsync($"Attempted login as developer with email {devLoginDto.Email} with incorrect password.");
+                await _logger.LogWarningAsync($"Attempted login for employee with email {employeeLoginDto.Email} with incorrect password.");
                 return Unauthorized("Invalid password");
             }
 
@@ -121,9 +122,9 @@ namespace DB_Coursework_API.Controllers
             {
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
-                Token = _tokenService.CreateToken(employee.ID, "developer")
+                Token = _tokenService.CreateToken(employee.ID, role)
             };
-            await _logger.LogAsync($"Successful login for developer with email: {devLoginDto.Email}");
+            await _logger.LogAsync($"Successful login for employee with email: {employeeLoginDto.Email}");
 
             return Ok(dto);
         }

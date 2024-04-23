@@ -47,7 +47,7 @@
 .auth-links,
 .profile-menu {
     text-align: right;
-    width: calc(100vw - 14rem);
+    width: calc(100vw - 15rem);
 }
 
 .link-button {

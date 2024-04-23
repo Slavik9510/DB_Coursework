@@ -17,6 +17,7 @@ namespace DB_Coursework_API.Extensions
             services.AddSingleton<IMyLogger>(new FileLogger("C:\\Users\\Slavik\\Documents\\Visual Studio 2022\\Projects\\DB_Coursework_API\\log"));
             services.AddSingleton<IMyLogReader>(new FileLogReader("C:\\Users\\Slavik\\Documents\\Visual Studio 2022\\Projects\\DB_Coursework_API\\log"));
             services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+            services.AddScoped<IStatisticRepository, StatisticRepository>();
 
             return services;
         }
