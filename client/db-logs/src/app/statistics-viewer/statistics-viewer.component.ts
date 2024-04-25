@@ -12,6 +12,8 @@ export class StatisticsViewerComponent implements OnInit {
     labels: [],
     datasets: []
   };
+  startDate: string | undefined;
+  endDate: string | undefined;
 
   constructor(private statisticsService: StatisticsService) { }
 
@@ -21,10 +23,14 @@ export class StatisticsViewerComponent implements OnInit {
     this.fetchChartData('sales-by-month', startDate, endDate);
   }
 
-  onOptionChange(value: string) {
-    const startDate = '2023-01-01';
-    const endDate = '2024-02-28';
-    this.fetchChartData(value, startDate, endDate);
+  filter(value: string) {
+    if (!this.startDate)
+      this.startDate = '2023-01-01';
+
+    if (!this.endDate)
+      this.endDate = this.getCurrentDate();
+
+    this.fetchChartData(value, this.startDate, this.endDate);
   }
 
   fetchChartData(endpoint: string, startDate: string, endDate: string) {
@@ -59,5 +65,14 @@ export class StatisticsViewerComponent implements OnInit {
     request.subscribe(data => {
       this.barChartData = data;
     });
+  }
+
+  getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
   }
 }

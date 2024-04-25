@@ -1,9 +1,9 @@
-select {
+select,
+input[type="date"] {
     padding: 0.5rem 0.7rem;
     font-size: 1rem;
-    /* Розмір шрифту */
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     appearance: none;
     background-color: #f9f9f9;
 }
@@ -12,10 +12,49 @@ option {
     padding: 0.5rem 0.7rem;
 }
 
-select:hover {
+select:hover,
+input[type="date"]:hover {
     border-color: #999;
 }
 
-select:focus {
+select:focus,
+input[type="date"]:focus,
+.filter-action:focus {
     outline: none;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+}
+
+input[type="date"],
+.filter-action {
+    margin-left: 0.6rem;
+}
+
+.date-picker {
+    margin-left: 0.6rem;
+}
+
+label {
+    margin-right: 0.4rem;
+}
+
+.filter-action {
+    width: 10vw;
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+    background-color: #204D74;
+    color: white;
+    border: 2px solid transparent;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.filter-action:hover {
+    border: 2px solid #204D74;
+    color: #204D74;
+    background-color: white;
 }
