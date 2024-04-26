@@ -55,3 +55,9 @@ a.form-control {
     text-decoration: underline;
     cursor: pointer;
 }
+
+button.form-control[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}

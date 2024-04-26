@@ -34,6 +34,16 @@ button.form-control {
     width: 50%;
 }
 
+button.form-control:hover:not([disabled]) {
+    background-color: rgb(21, 122, 21);
+}
+
+button.form-control[disabled] {
+    background-color: #717171;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 a.form-control {
     color: white;
     text-decoration: underline;

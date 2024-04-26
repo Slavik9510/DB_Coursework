@@ -4,10 +4,14 @@
     <div class="item" *ngFor="let item of cartItems">
         <app-cart-item-card (removeItem)="removeItem($event)" [item]="item"></app-cart-item-card>
     </div>
-    <button *ngIf="this.cartItems.length>0" (click)="this.orderDetailsMode=true">Place an order ●
+    <button *ngIf="this.cartItems.length > 0" (click)="this.orderDetailsMode=true"
+        [disabled]="!(this.accountService.currentUser$ | async)">Place an order ●
         {{getTotalPrice()}}</button>
+    <div *ngIf="cartItems.length > 0 && !(this.accountService.currentUser$ | async)">
+        <p>To place an order, you must first log in</p>
+    </div>
 
-    <div *ngIf="cartItems.length===0">
+    <div *ngIf="cartItems.length === 0">
         <h2>Cart is empty</h2>
         <p>But it's never too late to fix it :)</p>
     </div>

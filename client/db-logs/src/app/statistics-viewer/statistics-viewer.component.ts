@@ -14,13 +14,21 @@ export class StatisticsViewerComponent implements OnInit {
   };
   startDate: string | undefined;
   endDate: string | undefined;
+  invalidDates: boolean = false;
+  today: string = new Date().toISOString().split('T')[0];
 
   constructor(private statisticsService: StatisticsService) { }
 
   ngOnInit(): void {
-    const startDate = '2023-01-01';
-    const endDate = '2024-02-28';
-    this.fetchChartData('sales-by-month', startDate, endDate);
+    this.startDate = '2023-01-01';
+    this.endDate = this.today;
+    this.fetchChartData('sales-by-month', this.startDate, this.endDate);
+  }
+
+  validateDates(): void {
+    if (this.startDate && this.endDate) {
+      this.invalidDates = new Date(this.startDate) >= new Date(this.endDate);
+    }
   }
 
   filter(value: string) {
@@ -28,7 +36,7 @@ export class StatisticsViewerComponent implements OnInit {
       this.startDate = '2023-01-01';
 
     if (!this.endDate)
-      this.endDate = this.getCurrentDate();
+      this.endDate = this.today;
 
     this.fetchChartData(value, this.startDate, this.endDate);
   }
@@ -65,14 +73,5 @@ export class StatisticsViewerComponent implements OnInit {
     request.subscribe(data => {
       this.barChartData = data;
     });
-  }
-
-  getCurrentDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = ('0' + (today.getMonth() + 1)).slice(-2);
-    const day = ('0' + today.getDate()).slice(-2);
-
-    return `${year}-${month}-${day}`;
   }
 }

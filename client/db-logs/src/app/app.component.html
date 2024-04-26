@@ -1,7 +1,12 @@
-<!-- <app-nav></app-nav>
-<div class="main-content" style="margin-top: 4.5rem;">
-  <app-statistics-viewer></app-statistics-viewer>
-  <app-logs-viewer></app-logs-viewer>
-</div> -->
+<ng-container *ngIf="(accountService.currentUser$ | async); else loginComponent">
+  <app-nav></app-nav>
+  <div class="main-content" style="margin-top: 4.5rem;">
+    <!-- <app-statistics-viewer></app-statistics-viewer>
+    <app-logs-viewer></app-logs-viewer> -->
+    <router-outlet></router-outlet>
+  </div>
+</ng-container>
 
-<app-login></app-login>
+<ng-template #loginComponent>
+  <app-login></app-login>
+</ng-template>

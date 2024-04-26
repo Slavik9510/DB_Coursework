@@ -10,10 +10,10 @@ import { User } from './_models/user.model';
 export class AppComponent implements OnInit {
   title = 'db-logs';
 
-  constructor(private accountService: AccountService) { }
+  constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
-    const userString = localStorage.getItem('user');
+    const userString = localStorage.getItem('employee');
     if (userString) {
       const user: User = JSON.parse(userString);
       this.accountService.setCurrentUser(user);

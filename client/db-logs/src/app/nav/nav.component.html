@@ -1,15 +1,15 @@
-<nav class="navbar">
+<nav class="navbar" *ngIf="(accountService.currentUser$ | async) as user">
     <div>
         <h1 class="brand-logo">Employee Portal</h1>
     </div>
 
     <div class="profile-menu">
-        <p>Hello, User</p>
+        <p>Hello, {{user.firstName}} {{user.lastName}}</p>
         <div class="dropdown">
             <i class="fa-solid fa-bars dropbtn"></i>
             <div class="dropdown-content">
                 <a href="#">My profile</a>
-                <a>Logout</a>
+                <a (click)="logout()">Logout</a>
             </div>
         </div>
     </div>

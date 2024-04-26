@@ -2,7 +2,7 @@
     <h2>Log Viewer</h2>
     <div>
         <input type="date" [(ngModel)]="selectedDate" (change)="onDateChange(selectedDate)" placeholder="Select date"
-            class="date-picker">
+            class="date-picker" [max]="today">
     </div>
     <div *ngIf="logs && logs.length; else noLogsTemplate">
         <ul class="log-list">

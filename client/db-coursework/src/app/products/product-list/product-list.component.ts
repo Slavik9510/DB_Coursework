@@ -105,8 +105,6 @@ export class ProductListComponent {
         break;
     }
 
-    console.log(this.productParams);
-
     this.productService.getProducts(this.productParams).subscribe(response => {
       if (response.body)
         this.products = response.body;
@@ -118,5 +116,9 @@ export class ProductListComponent {
         this.totalItems = paginationData.totalItems;
       }
     });
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

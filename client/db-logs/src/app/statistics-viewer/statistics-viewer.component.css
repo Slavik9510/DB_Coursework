@@ -53,8 +53,14 @@ label {
     cursor: pointer;
 }
 
-.filter-action:hover {
+.filter-action:hover:not([disabled]) {
     border: 2px solid #204D74;
     color: #204D74;
     background-color: white;
+}
+
+.filter-action[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
 }

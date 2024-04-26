@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../_services/shopping-cart.service';
-import { Product } from '../_models/product.model';
 import { CartItem } from '../_models/cart-item.model';
 import { DeliveryInfo } from '../_models/delivery-info.model';
 import { OrderService } from '../_services/order.service';
 import { OrderDto } from '../_models/orderDto';
 import { OrderItem } from '../_models/order-item.model';
+import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -17,7 +18,8 @@ export class ShoppingCartComponent implements OnInit {
   orderDetailsMode = false;
   deliveryInfo: DeliveryInfo | undefined;
 
-  constructor(private shoppingCartService: ShoppingCartService, private orderService: OrderService) { }
+  constructor(private shoppingCartService: ShoppingCartService, private orderService: OrderService,
+    public accountService: AccountService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.cartItems = this.shoppingCartService.getItems();
@@ -58,6 +60,7 @@ export class ShoppingCartComponent implements OnInit {
     this.orderService.placeOrder(order).subscribe(response => {
       this.cartItems = [];
       this.shoppingCartService.clearCart();
+      this.toastr.success('Order succesfully placed');
     });
   }
 
@@ -68,26 +71,3 @@ export class ShoppingCartComponent implements OnInit {
     }));
   }
 }
-
-
-
-// const product: Product = {
-//   id: 1,
-//   name: 'Google CyberElite O3 Ultra',
-//   price: 10110.99,
-//   category: 'Phones',
-//   rating: 4.5,
-//   amountOfComments: 10,
-//   photoUrl: 'assets/images/phone.png'
-// };
-// this.cartItems.push(new CartItem(product, 1));
-// const product2: Product = {
-//   id: 2,
-//   name: 'Google CyberElite',
-//   price: 10110.99,
-//   category: 'Phones',
-//   rating: 4.5,
-//   amountOfComments: 10,
-//   photoUrl: 'assets/images/phone.png'
-// };
-// this.cartItems.push(new CartItem(product2, 1));

@@ -19,6 +19,8 @@ import { CartItemCardComponent } from './cart-item-card/cart-item-card.component
 import { OrderDeliverInfoComponent } from './order-deliver-info/order-deliver-info.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ProductDetailsComponent } from './products/product-details/product-details.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,11 @@ import { ProductDetailsComponent } from './products/product-details/product-deta
     SharedModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    })
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]

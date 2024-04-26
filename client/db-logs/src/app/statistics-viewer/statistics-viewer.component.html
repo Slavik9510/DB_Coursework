@@ -10,13 +10,14 @@
     </select>
     <div class="date-picker">
         <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate" [(ngModel)]="startDate">
+        <input type="date" id="startDate" name="startDate" [(ngModel)]="startDate" (ngModelChange)="validateDates()"
+            [max]="today">
     </div>
     <div class="date-picker">
         <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate" [(ngModel)]="endDate">
+        <input type="date" id="endDate" name="endDate" [(ngModel)]="endDate" (ngModelChange)="validateDates()"
+            [max]="today">
     </div>
-    <button class="filter-action" (click)="filter(endpointSelect.value)">Filter</button>
+    <button class="filter-action" (click)="filter(endpointSelect.value)" [disabled]="invalidDates">Filter</button>
 </div>
-
 <app-bar-chart [barChartData]="this.barChartData"></app-bar-chart>
