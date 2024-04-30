@@ -27,7 +27,7 @@
         </tr>
     </table>
 </div>
-
+<app-review-input (reviewAdded)="reviewAdded($event)"></app-review-input>
 <div *ngIf="product && product.reviews.length" class="reviews">
     <h2>Reviews</h2>
     <div class="review" *ngFor="let review of product.reviews">

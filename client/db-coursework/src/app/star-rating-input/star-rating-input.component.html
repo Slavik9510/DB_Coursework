@@ -1,0 +1,5 @@
+<div class="star-rating">
+    <i *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" class="fas fa-star"
+        [class.selected]="i < currentRating || i < hovered" (click)="onClick(i + 1)" (mouseover)="onHover(i + 1)"
+        (mouseleave)="onHoverLeave()"></i>
+</div>

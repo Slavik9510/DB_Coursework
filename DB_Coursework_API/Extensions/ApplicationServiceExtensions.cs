@@ -19,6 +19,7 @@ namespace DB_Coursework_API.Extensions
             services.AddScoped<IEmployeesRepository, EmployeesRepository>();
             services.AddScoped<IStatisticRepository, StatisticRepository>();
             services.AddScoped<IInventoryRepository, InventoryRepository>();
+            services.AddScoped<IReviewsRepository, ReviewsRepository>();
 
             return services;
         }

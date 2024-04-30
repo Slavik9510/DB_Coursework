@@ -21,6 +21,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ProductDetailsComponent } from './products/product-details/product-details.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReviewInputComponent } from './review-input/review-input.component';
+import { StarRatingInputComponent } from './star-rating-input/star-rating-input.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ShoppingCartComponent,
     CartItemCardComponent,
     OrderDeliverInfoComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ReviewInputComponent,
+    StarRatingInputComponent
   ],
   imports: [
     BrowserModule,

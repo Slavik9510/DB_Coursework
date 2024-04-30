@@ -4,6 +4,7 @@ import { ProductParams } from '../_models/productParams';
 import { Product } from '../_models/product.model';
 import { getPaginationHeaders } from './paginationHelper';
 import { ProductDetails } from '../_models/product-details.model';
+import { AddReviewDto } from '../_models/addReviewDto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,14 @@ export class ProductService {
     if (productParams.maxPrice)
       params = params.append('maxPrice', productParams.maxPrice);
 
-    return this.http.get<Product[]>(this.baseUrl + 'inventory/items-to-order', { params: params, observe: 'response' });
+    return this.http.get<Product[]>(this.baseUrl + 'products', { params: params, observe: 'response' });
   }
 
   getProductDetails(id: number) {
     return this.http.get<ProductDetails>(this.baseUrl + 'products/' + id);
+  }
+
+  addReview(addReview: AddReviewDto) {
+    return this.http.post(this.baseUrl + 'products/add-review', addReview);
   }
 }

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
+import { AddReviewDto } from 'src/app/_models/addReviewDto';
 import { ProductDetails } from 'src/app/_models/product-details.model';
 import { Product } from 'src/app/_models/product.model';
+import { Review } from 'src/app/_models/review.model';
 import { AccountService } from 'src/app/_services/account.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { ShoppingCartService } from 'src/app/_services/shopping-cart.service';
@@ -66,5 +68,22 @@ export class ProductDetailsComponent implements OnInit {
     }
     this.shoppingCartService.addToCart(product);
     this.toastr.success('Item was succesfully added to the cart');
+  }
+
+  reviewAdded(review: Review) {
+    if (!this.product) return;
+
+    const dto: AddReviewDto = {
+      productID: this.product.id,
+      rating: review.rating,
+      content: review.content
+    }
+    this.productsService.addReview(dto).subscribe({
+      next: () => {
+        this.product!.reviews.push(review);
+
+        this.toastr.success('Review was succesfully added');
+      }
+    });
   }
 }

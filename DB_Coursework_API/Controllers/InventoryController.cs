@@ -1,12 +1,14 @@
 ﻿using DB_Coursework_API.Extensions;
 using DB_Coursework_API.Helpers;
 using DB_Coursework_API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DB_Coursework_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "employee")]
     public class InventoryController : Controller
     {
         private readonly IInventoryRepository _inventoryRepository;

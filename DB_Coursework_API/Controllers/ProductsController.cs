@@ -2,6 +2,7 @@
 using DB_Coursework_API.Helpers;
 using DB_Coursework_API.Interfaces;
 using DB_Coursework_API.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DB_Coursework_API.Controllers
@@ -12,11 +13,14 @@ namespace DB_Coursework_API.Controllers
     {
         private readonly IProductsRepository _productsRepository;
         private readonly IMyLogger _logger;
+        private readonly IReviewsRepository _reviewsRepository;
 
-        public ProductsController(IProductsRepository productsRepository, IMyLogger logger)
+        public ProductsController(IProductsRepository productsRepository, IMyLogger logger,
+            IReviewsRepository reviewsRepository)
         {
             _productsRepository = productsRepository;
             _logger = logger;
+            _reviewsRepository = reviewsRepository;
         }
 
         [HttpGet]
@@ -70,6 +74,17 @@ namespace DB_Coursework_API.Controllers
                 await _logger.LogAsync($"Product details retrieved for ID: {id}. (Request from user {userId})");
 
             return Ok(product);
+        }
+
+        [Authorize(Roles = "customer")]
+        [HttpPost("add-review")]
+        public async Task<IActionResult> AddReview(AddReviewDto reviewDto)
+        {
+            if (await _reviewsRepository.AddReviewAsync(reviewDto, User.GetUserId()))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
