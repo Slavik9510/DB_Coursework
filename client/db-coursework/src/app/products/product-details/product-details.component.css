@@ -116,3 +116,11 @@
     color: rgb(31, 180, 31);
     background-color: white;
 }
+
+.old-price {
+    text-decoration: line-through;
+    font-size: 1.2rem;
+    color: #333;
+    display: inline;
+    margin-right: 0.5rem;
+}

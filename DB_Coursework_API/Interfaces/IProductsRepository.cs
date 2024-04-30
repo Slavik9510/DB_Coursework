@@ -6,8 +6,8 @@ namespace DB_Coursework_API.Interfaces
 {
     public interface IProductsRepository
     {
-        Task<PagedList<ProductDto>> GetProductsAsync(ProductParams productParams);
-        Task<List<ProductDto>> GetAdditionalData(IEnumerable<Product> products);
+        Task<PagedList<InventoryItem>> GetProductsAsync(ProductParams productParams);
+        Task<List<InventoryItem>> GetAdditionalData(IEnumerable<Product> products);
         Task<ProductDetailsDto?> GetDetailsAsync(int id);
     }
 }

@@ -21,7 +21,7 @@ namespace DB_Coursework_API.Data
             _mapper = mapper;
         }
 
-        public async Task<PagedList<ProductDto>> GetProductsAsync(ProductParams productParams)
+        public async Task<PagedList<InventoryItem>> GetProductsAsync(ProductParams productParams)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -56,9 +56,9 @@ namespace DB_Coursework_API.Data
             };
 
 
-            ISqlDataMapper<ProductDto> mapper = new ProductMapper();
-            var products = await PagedList<ProductDto>.CreateAsync(connection, query, count, mapper,
-                paramsValues, productParams.PageNumber, productParams.PageSize);
+            ISqlDataMapper<InventoryItem> mapper = new ProductMapper();
+            var products = await PagedList<InventoryItem>.CreateAsync(connection, query, count, mapper,
+                productParams.PageNumber, productParams.PageSize, paramsValues);
 
             return products;
         }
@@ -69,7 +69,7 @@ namespace DB_Coursework_API.Data
             await connection.OpenAsync();
 
             var product = new ProductDetailsDto();
-            string query = "SELECT * FROM Products WHERE ProductID = @Id";
+            string query = "SELECT *, UnitPrice - dbo.GetProductPriceWithPromotion(@Id) as Discount FROM Products WHERE ProductID = @Id";
             using (var command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Id", id);
@@ -83,6 +83,7 @@ namespace DB_Coursework_API.Data
                     product.Price = (decimal)reader["UnitPrice"];
                     product.Category = (string)reader["Category"];
                     product.Description = (string)reader["Description"];
+                    product.Discount = (decimal)reader["Discount"];
                     product.Attributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(attributes);
                 }
                 else
@@ -119,10 +120,13 @@ namespace DB_Coursework_API.Data
             product.Reviews = reviews;
             product.Attributes = NormalizeAttributes(product.Attributes);
 
+            if (product.Discount == 0)
+                product.Discount = null;
+
             return product;
         }
 
-        public async Task<List<ProductDto>> GetAdditionalData(IEnumerable<Product> products)
+        public async Task<List<InventoryItem>> GetAdditionalData(IEnumerable<Product> products)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -134,7 +138,7 @@ namespace DB_Coursework_API.Data
             string photoQuery = "SELECT ImageURL FROM Products p JOIN ProductImages img ON " +
                 "img.ProductID = p.ProductID WHERE img.IsMain = @Id";
 
-            List<ProductDto> productDtos = _mapper.Map<List<ProductDto>>(products);
+            List<InventoryItem> productDtos = _mapper.Map<List<InventoryItem>>(products);
             int count = 0;
             foreach (var product in productDtos)
             {

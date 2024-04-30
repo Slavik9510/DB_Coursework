@@ -62,3 +62,12 @@
 .buy:hover {
     background-color: #ccccccb4;
 }
+
+.old-price {
+    text-decoration: line-through;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #333;
+    display: inline;
+    margin-right: 0.5rem;
+}

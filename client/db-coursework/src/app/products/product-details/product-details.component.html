@@ -5,7 +5,11 @@
             <h1>{{ product.name }}</h1>
             <p><strong>Description:</strong> {{ product.description }}</p>
             <div class="price-wrapper">
-                <p class="price">{{ product.price }}</p>
+                <p class="price" *ngIf="!product.discount; else discountBlock">{{product.price}}</p>
+                <ng-template #discountBlock>
+                    <p class="old-price">{{product.price}}</p>
+                    <p class="price" style="color: #E43A36;">{{product.price-product.discount!}}</p>
+                </ng-template>
                 <button (click)="addToCart();"><i class="fa-solid fa-cart-shopping"></i> Add
                     to cart</button>
             </div>

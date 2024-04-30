@@ -5,11 +5,17 @@ import { LogsViewerComponent } from './logs-viewer/logs-viewer.component';
 import { logsGuard } from './_guards/logs.guard';
 import { statisticsGuard } from './_guards/statistics.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 const routes: Routes = [
   {
     path: 'statistics',
     component: StatisticsViewerComponent,
+    canActivate: [statisticsGuard]
+  },
+  {
+    path: 'inventory',
+    component: InventoryComponent,
     canActivate: [statisticsGuard]
   },
   {

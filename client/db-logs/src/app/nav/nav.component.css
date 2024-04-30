@@ -47,7 +47,14 @@
 .auth-links,
 .profile-menu {
     text-align: right;
-    width: calc(100vw - 15rem);
+}
+
+.short-offset {
+    width: calc(100vw - 29rem);
+}
+
+.long-offset {
+    width: calc(100vw - 20rem);
 }
 
 .link-button {

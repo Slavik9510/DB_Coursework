@@ -28,7 +28,9 @@ export class ShoppingCartComponent implements OnInit {
     let totalPrice = 0;
 
     for (const cartItem of this.cartItems) {
-      const price = cartItem.product.price;
+      let price = cartItem.product.price;
+      if (cartItem.product.discount)
+        price -= cartItem.product.discount;
       const quantity = cartItem.quantity;
 
       totalPrice += price * quantity;
@@ -51,16 +53,22 @@ export class ShoppingCartComponent implements OnInit {
   removeItem(event: CartItem) {
     this.cartItems = this.cartItems.filter(item => item.product.id !== event.product.id);
     this.shoppingCartService.removeAllInstancesFromCart(event.product);
+    this.toastr.success('Item was succesfully removed from the cart');
   }
 
   private placeOrder() {
     if (!this.deliveryInfo) return;
 
     const order = new OrderDto(this.deliveryInfo, this.cartItemsToOrderItems(this.cartItems));
-    this.orderService.placeOrder(order).subscribe(response => {
-      this.cartItems = [];
-      this.shoppingCartService.clearCart();
-      this.toastr.success('Order succesfully placed');
+    this.orderService.placeOrder(order).subscribe({
+      next: () => {
+        this.cartItems = [];
+        this.shoppingCartService.clearCart();
+        this.toastr.success('Order succesfully placed');
+      },
+      error: () => {
+        this.toastr.error('Something went wrong');
+      }
     });
   }
 

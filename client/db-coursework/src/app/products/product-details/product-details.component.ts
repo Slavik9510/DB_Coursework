@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs';
 import { ProductDetails } from 'src/app/_models/product-details.model';
 import { Product } from 'src/app/_models/product.model';
@@ -16,7 +17,7 @@ export class ProductDetailsComponent implements OnInit {
   product: ProductDetails | undefined;
 
   constructor(private route: ActivatedRoute, private productsService: ProductService,
-    private shoppingCartService: ShoppingCartService, public accountService: AccountService) { }
+    private shoppingCartService: ShoppingCartService, public accountService: AccountService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.route.params.pipe(
@@ -60,8 +61,10 @@ export class ProductDetailsComponent implements OnInit {
       category: this.product.category,
       rating: 0,
       amountOfComments: 0,
-      photoUrl: undefined
+      photoUrl: undefined,
+      discount: this.product.discount
     }
     this.shoppingCartService.addToCart(product);
+    this.toastr.success('Item was succesfully added to the cart');
   }
 }

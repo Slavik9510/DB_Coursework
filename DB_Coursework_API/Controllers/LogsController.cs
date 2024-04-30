@@ -1,4 +1,5 @@
 ﻿using DB_Coursework_API.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
@@ -6,7 +7,7 @@ namespace DB_Coursework_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize(Roles = "developer")]
+    [Authorize(Roles = "developer")]
     public class LogsController : ControllerBase
     {
         private readonly IMyLogReader _logReader;

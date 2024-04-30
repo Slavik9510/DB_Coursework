@@ -3,7 +3,15 @@
         <h1 class="brand-logo">Employee Portal</h1>
     </div>
 
-    <div class="profile-menu">
+    <div class="navigation" *ngIf="accountService.getRole()==='employee'">
+        <ul class="main-nav-items">
+            <li class="nav-item" routerLink="statistics">Statistics</li>
+            <li class="nav-item" routerLink="inventory">Inventory</li>
+        </ul>
+    </div>
+
+    <div class="profile-menu"
+        [ngClass]="{'short-offset': accountService.getRole()==='employee', 'long-offset': accountService.getRole() !=='employee'}">
         <p>Hello, {{user.firstName}} {{user.lastName}}</p>
         <div class="dropdown">
             <i class="fa-solid fa-bars dropbtn"></i>

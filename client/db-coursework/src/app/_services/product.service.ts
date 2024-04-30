@@ -25,7 +25,7 @@ export class ProductService {
     if (productParams.maxPrice)
       params = params.append('maxPrice', productParams.maxPrice);
 
-    return this.http.get<Product[]>(this.baseUrl + 'products', { params: params, observe: 'response' });
+    return this.http.get<Product[]>(this.baseUrl + 'inventory/items-to-order', { params: params, observe: 'response' });
   }
 
   getProductDetails(id: number) {

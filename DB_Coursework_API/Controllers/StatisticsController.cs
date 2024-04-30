@@ -1,5 +1,6 @@
 ﻿using DB_Coursework_API.Interfaces;
 using DB_Coursework_API.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
@@ -7,6 +8,7 @@ namespace DB_Coursework_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "employee")]
     public class StatisticsController : Controller
     {
         private readonly IStatisticRepository _statisticRepository;

@@ -3,7 +3,10 @@
     <p class="product-name">{{item.product.name}}</p>
 
     <div class="product-price-wrapper">
-        <p class="price">{{item.product.price}}</p>
+        <p class="price" *ngIf="!item.product.discount; else discountBlock">{{item.product.price}}</p>
+        <ng-template #discountBlock>
+            <p class="price">{{item.product.price-item.product.discount!}}</p>
+        </ng-template>
         <div class="quantity-selector">
             <button (click)="decrementQuantity()" class="quantity-button">-</button>
             <input type="number" name="quantity" [(ngModel)]="item.quantity">

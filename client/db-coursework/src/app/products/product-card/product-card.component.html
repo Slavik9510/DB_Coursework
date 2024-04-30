@@ -7,7 +7,11 @@
     </div>
 
     <div class="product-price-wrapper">
-        <p class="price">{{product.price}}</p>
+        <p class="price" *ngIf="!product.discount; else discountBlock">{{product.price}}</p>
+        <ng-template #discountBlock>
+            <p class="old-price">{{product.price}}</p>
+            <p class="price" style="color: #E43A36;">{{product.price-product.discount!}}</p>
+        </ng-template>
         <i class="buy fa-solid fa-cart-shopping" (click)="addToCart(); $event.stopPropagation()"></i>
     </div>
 </div>

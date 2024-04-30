@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavComponent } from './nav/nav.component';
 import { LogsViewerComponent } from './logs-viewer/logs-viewer.component';
@@ -16,6 +16,9 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { InventoryComponent } from './inventory/inventory.component';
+import { PhoneNumberPipe } from './_pipes/phone-number.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -30,7 +33,9 @@ export function tokenGetter() {
     StatisticsViewerComponent,
     CustomCheckboxComponent,
     LoginComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    InventoryComponent,
+    PhoneNumberPipe
   ],
   imports: [
     BrowserModule,
@@ -51,7 +56,7 @@ export function tokenGetter() {
       positionClass: 'toast-bottom-right'
     })
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

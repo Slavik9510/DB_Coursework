@@ -1,0 +1,33 @@
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Units in Stock</th>
+                <th>Reorder Level</th>
+                <th>Units on Order</th>
+                <th>Supplier Company Name</th>
+                <th>Supplier Email</th>
+                <th>Supplier Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>{{ item.productName }}</td>
+                <td>{{ item.unitsInStock }}</td>
+                <td>{{ item.reorderLevel }}</td>
+                <td>{{ item.unitsOnOrder }}</td>
+                <td>{{ item.supplierCompanyName }}</td>
+                <td>{{ item.supplierEmail }}</td>
+                <td>{{ item.supplierPhoneNumber | phoneNumber}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" *ngIf="paginationParams && totalItems">
+        <button (click)="previousPage(); scrollToTop()" [disabled]="paginationParams.pageNumber===1">Previous</button>
+        <span>Page {{ paginationParams.pageNumber }} of {{ getTotalPages()}}</span>
+        <button (click)="nextPage(); scrollToTop()"
+            [disabled]="paginationParams.pageNumber === getTotalPages()">Next</button>
+    </div>
+</div>

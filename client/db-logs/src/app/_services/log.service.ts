@@ -11,7 +11,6 @@ export class LogService {
   constructor(private http: HttpClient) { }
 
   getLogs(date: string): Observable<string[]> {
-    console.log(this.baseUrl + `$logs?date=${date}`);
     return this.http.get<string[]>(this.baseUrl + `logs?date=${date}`);
   }
 }

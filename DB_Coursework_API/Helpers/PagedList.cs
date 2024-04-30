@@ -21,10 +21,13 @@ namespace DB_Coursework_API.Helpers
         public int TotalCount { get; set; }
 
         public static async Task<PagedList<T>> CreateAsync(SqlConnection connection, string query, int totalItemsCount,
-            ISqlDataMapper<T> mapper, Dictionary<string, object> paramsValues, int pageNumber, int pageSize)
+            ISqlDataMapper<T> mapper, int pageNumber, int pageSize, Dictionary<string, object>? paramsValues = null)
         {
             if (connection.State != ConnectionState.Open)
                 await connection.OpenAsync();
+
+            if (paramsValues == null)
+                paramsValues = new Dictionary<string, object>();
 
             int offset = (pageNumber - 1) * pageSize;
             query += " OFFSET @Offset ROWS FETCH NEXT @Take ROWS ONLY";
